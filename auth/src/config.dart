@@ -1,0 +1,1 @@
+String api_endpoint = "https://api.schmuckli.cloud/client_api/v1/auth/";

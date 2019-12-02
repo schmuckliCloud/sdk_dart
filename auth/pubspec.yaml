@@ -1,0 +1,9 @@
+name: schmucklicloud_auth
+description: The official Dart SDK for schmuckliCloud Authentication
+version: 0.1.0
+author: schmuckli.dev <julian@schmuckli.net>
+homepage: https://schmuckli.cloud
+environment:
+  sdk: '>=2.0.0 <3.0.0'
+dependencies:
+  http: ^0.12.0
