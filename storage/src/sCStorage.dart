@@ -162,6 +162,7 @@ class sCStorage {
     }
 
     if(sorting == null) {
+      
       sorting = "asc";
     }
 
