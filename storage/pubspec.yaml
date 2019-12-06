@@ -1,6 +1,6 @@
-name: schmucklicloud_auth
-description: The official schmuckliCloud Authentication SDK for Dart. Use this SDK if you want to install a fully functional authentication system in your apps.
-version: 0.1.2
+name: schmucklicloud_storage
+description: The official schmuckliCloud Storage SDK for Dart. Use this SDK if you want store and manage data from the Cloud.
+version: 0.1.0
 author: schmuckli.dev <julian@schmuckli.net>
 homepage: https://schmuckli.cloud
 environment:
