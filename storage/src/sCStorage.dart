@@ -12,19 +12,23 @@ class sCStorage {
     _app_secret = app_secret;
   }
 
-  setBucket(String bucket) {
+  void setBucket(String bucket) {
     _bucket = bucket;
   }
 
-  setDataset(String dataset) {
+  void setDataset(String dataset) {
     _dataset = dataset;
   }
 
-  setAuthToken(String auth_token) {
+  void setAuthToken(String auth_token) {
     _auth_token = auth_token;
   }
 
-  insert(String container, Map<String, dynamic> data) async {
+  dynamic insert(String container, Map<String, dynamic> data) async {
+    if(container == null) {
+      throw new sCError("Please define a container name as the first parameter.");
+    }
+
     try {
       Map<String, String> headers = {
         'appid': _app_id,
@@ -48,7 +52,15 @@ class sCStorage {
     }
   }
 
-  update(String container, int row, Map<String, dynamic> data) async {
+  dynamic update(String container, int row, Map<String, dynamic> data) async {
+    if(container == null) {
+      throw new sCError("Please define a container name as the first parameter.");
+    }
+
+    if(row == null) {
+      throw new sCError("Please define a rowset id as the second parameter.");
+    }
+
     try {
       Map<String, String> headers = {
         'appid': _app_id,
@@ -61,8 +73,114 @@ class sCStorage {
         body: {
           'container': container, 
           'dataset': _dataset,
-          'row_id': row_id
+          'row': row,
           'data': jsonEncode(data)
+        }
+      );
+
+    } catch(e) {
+      return e;
+    } finally {
+      client.close();
+    }
+  }
+
+  dynamic delete(String container, int row) async {
+    if(container == null) {
+      throw new sCError("Please define a container name as the first parameter.");
+    }
+
+    if(row == null) {
+      throw new sCError("Please define a rowset id as the second parameter.");
+    }
+
+    try {
+      Map<String, String> headers = {
+        'appid': _app_id,
+        'appsecret': _app_secret,
+        'authtoken': _auth_token
+      };
+
+      return await client.delete(config.api_endpoint,
+        headers: headers,
+        body: {
+          'container': container, 
+          'dataset': _dataset,
+          'row': row
+        }
+      );
+
+    } catch(e) {
+      return e;
+    } finally {
+      client.close();
+    }
+  },
+
+  void getAll(String container, [String sorting, int start, int limit]) async {
+    if (container == null) {
+      throw new sCError("Please define a container as the first parameter.");
+    }
+
+    if (start == null) {
+      start = "";
+    }
+
+    if(limit == null) {
+      limit = "";
+    }
+
+    if(sorting == null) {
+      sorting = "asc";
+    }
+
+    try {
+      Map<String, String> headers = {
+        'appid': _app_id,
+        'appsecret': _app_secret,
+        'authtoken': _auth_token
+      };
+
+      return await client.get(config.api_endpoint,
+        headers: headers,
+        body: {
+          'container': container, 
+          'dataset': _dataset,
+          'order': sorting,
+          'start': start,
+          'limit': limit
+        }
+      );
+
+    } catch(e) {
+      return e;
+    } finally {
+      client.close();
+    }
+  }
+
+  dynamic getById(String container, int row) {
+    if(container == null) {
+      throw new sCError("Please define a container name as the first parameter.");
+    }
+
+    if(row == null) {
+      throw new sCError("Please define a rowset id as the second parameter.");
+    }
+
+    try {
+      Map<String, String> headers = {
+        'appid': _app_id,
+        'appsecret': _app_secret,
+        'authtoken': _auth_token
+      };
+
+      return await client.get(config.api_endpoint,
+        headers: headers,
+        body: {
+          'container': container, 
+          'dataset': _dataset,
+          'row': row
         }
       );
 
