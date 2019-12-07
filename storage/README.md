@@ -25,7 +25,7 @@ Before you can use the function inside of your project, you also have to import 
 import 'package:schmucklicloud_storage/main.dart';
 
 //Setup a referene
-sCStorage reference = sCStorage("<YOUR_APP_ID>", "<YOUR_APP_SECRET>");
+sCStorage reference = new sCStorage("<YOUR_APP_ID>", "<YOUR_APP_SECRET>");
 
 //Define the bucket id and the dataset id
 reference.setBucket(12);
