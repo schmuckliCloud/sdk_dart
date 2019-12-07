@@ -162,7 +162,7 @@ class sCStorage {
     }
 
     if(sorting == null) {
-      
+
       sorting = "asc";
     }
 
@@ -233,5 +233,9 @@ class sCStorage {
     } finally {
       client.close();
     }
+  }
+
+  dynamic get(String container, [List<Object> filter, String sorting, int start, int limit]) async {
+
   }
 }
