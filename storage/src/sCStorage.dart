@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import './config.dart' as config;
@@ -55,7 +57,7 @@ class sCStorage {
           'bucket': _bucket,
           'container': container, 
           'dataset': _dataset,
-          'data': jsonEncode(data)
+          'data': json.encode(data)
         }
       );
 
@@ -98,7 +100,7 @@ class sCStorage {
           'container': container, 
           'dataset': _dataset,
           'row': row,
-          'data': jsonEncode(data)
+          'data': json.encode(data)
         }
       );
 
@@ -235,7 +237,52 @@ class sCStorage {
     }
   }
 
-  dynamic get(String container, [List<Object> filter, String sorting, int start, int limit]) async {
+  dynamic get(String container, List<Object> filter, [String sorting, int start, int limit]) async {
+    if (_bucket == null) {
+      throw new sCNotify("Please define a bucket first.", sCNotifyTypes.ERROR);
+    }
 
+    if (_dataset == null) {
+      throw new sCNotify("Please define a dataset as well or provide an auth token.", sCNotifyTypes.WARNING);
+    }
+
+    if(container == null) {
+      throw new sCNotify("Please define a container name as the first parameter.", sCNotifyTypes.ERROR);
+    }
+
+    if(filter == null) {
+      throw new sCNotify("Please define a filter as the second parameter.", sCNotifyTypes.ERROR);
+    }
+
+    if(filter.length == 0) {
+      throw new sCNotify("Please define at least one filter as the second parameter.", sCNotifyTypes.ERROR);
+    }
+
+    var client = http.Client();
+
+    try {
+      Map<String, String> headers = {
+        'appid': _app_id,
+        'appsecret': _app_secret,
+        'authtoken': _auth_token
+      };
+
+      return await client.get(config.api_endpoint + "?" +
+        "bucket=" + _bucket.toString() + "&" +
+        "container=" + container + "&" +
+        "dataset=" + _dataset + "&" +
+        "filter=" + json.encode(filter) + "&" +
+        "order=" + sorting + "&" + 
+        "start=" + (start == 0 ? "" : start.toString()) + "&" +
+        "limit=" + (limit == 0 ? "" : limit.toString())
+        ,
+        headers: headers
+      );
+
+    } catch(e) {
+      return e;
+    } finally {
+      client.close();
+    }
   }
 }
