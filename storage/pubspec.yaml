@@ -1,6 +1,6 @@
 name: schmucklicloud_storage
 description: The official schmuckliCloud Storage SDK for Dart. Use this SDK if you want store and manage data from the Cloud.
-version: 0.1.3
+version: 0.1.4
 author: schmuckli.dev <julian@schmuckli.net>
 homepage: https://schmuckli.cloud
 repository: https://github.com/julianschmuckli/schmucklicloud_sdk_dart/tree/master/storage

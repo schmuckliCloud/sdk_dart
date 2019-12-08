@@ -1,3 +1,6 @@
+## 0.1.4
+- Fixed bugs
+
 ## 0.1.2
 - Added `get` function to filter data
 
