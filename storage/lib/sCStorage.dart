@@ -15,20 +15,24 @@ class sCStorage {
     _app_id = app_id;
     _app_secret = app_secret;
   }
-
+  
+  /// Sets the bucket id for the upcoming transactions. 
   void setBucket(int bucket) {
     _bucket = bucket;
   }
 
+  /// Sets the dataset for the upcoming transactions. 
   void setDataset(String dataset) {
     _dataset = dataset;
   }
 
+  /// Instead of a dataset, you can assign the auth token to access the users private data.
   void setAuthToken(String auth_token) {
     _auth_token = auth_token;
     _dataset = "";
   }
 
+  /// Inserts new data to the given container. 
   dynamic insert(String container, Map<String, dynamic> data) async {
     if (_bucket == null) {
       throw new sCNotify("Please define a bucket first.", sCNotifyTypes.ERROR);
@@ -68,6 +72,7 @@ class sCStorage {
     }
   }
 
+  /// Updates the data from the given container and row id.
   dynamic update(String container, int row, Map<String, dynamic> data) async {
     if (_bucket == null) {
       throw new sCNotify("Please define a bucket first.", sCNotifyTypes.ERROR);
@@ -111,6 +116,7 @@ class sCStorage {
     }
   }
 
+  /// Deletes data from a container with the given row id.
   dynamic delete(String container, int row) async {
     if (_bucket == null) {
       throw new sCNotify("Please define a bucket first.", sCNotifyTypes.ERROR);
@@ -150,6 +156,7 @@ class sCStorage {
     }
   }
 
+  /// Fetchs all data from a container. On this function, no filter can be set. 
   dynamic getAll(String container, [String sorting, int start, int limit]) async {
     if (_bucket == null) {
       throw new sCNotify("Please define a bucket first.", sCNotifyTypes.ERROR);
@@ -196,6 +203,7 @@ class sCStorage {
     }
   }
 
+  /// Gets a single rowset by it's id. 
   dynamic getById(String container, int row) async {
     if (_bucket == null) {
       throw new sCNotify("Please define a bucket first.", sCNotifyTypes.ERROR);
@@ -237,6 +245,7 @@ class sCStorage {
     }
   }
 
+  /// Gets data from a container. There you also can define filters.
   dynamic get(String container, List<Object> filter, [String sorting, int start, int limit]) async {
     if (_bucket == null) {
       throw new sCNotify("Please define a bucket first.", sCNotifyTypes.ERROR);
