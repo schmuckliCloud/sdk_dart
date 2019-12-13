@@ -24,4 +24,6 @@ jobs:
         }
         EOF
     - name: Publish package
-      run: pub publish -f
+      run: |
+        cd storage
+        pub publish -f
