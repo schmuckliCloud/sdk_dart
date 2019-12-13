@@ -11,7 +11,8 @@ class sCStorage {
   int _bucket;
   String _dataset, _auth_token;
 
-  sCStorage(String app_id, app_secret) {
+  /// Creates an instance to use the schmuckliCloud Storage functions
+  sCStorage(String app_id, String app_secret) {
     _app_id = app_id;
     _app_secret = app_secret;
   }
