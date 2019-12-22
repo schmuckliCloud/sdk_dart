@@ -20,15 +20,15 @@ class sCAuth {
   /// @returns A Response instance, if the request has been finished completed
   dynamic registerEmailPassword(String email, String password, String language) async {
     if(email == null) {
-      throw new sCNotify("Please define an email as the first parameter.", sCNotify.ERROR);
+      throw new sCNotify("Please define an email as the first parameter.", sCNotifyTypes.ERROR);
     }
 
     if (password == null) {
-      throw new sCNotify("Please define a password as the second parameter.");
+      throw new sCNotify("Please define a password as the second parameter.", sCNotifyTypes.ERROR);
     }
 
     if (language == null) {
-      new sCNotify("If you want to use localized messages, please provide an language in short form (en, de) as the thrid parameter.");
+      new sCNotify("If you want to use localized messages, please provide an language in short form (en, de) as the thrid parameter.", sCNotifyTypes.ERROR);
     }
 
     var client = new http.Client();
@@ -60,11 +60,11 @@ class sCAuth {
   /// @returns If it was successful, it will provide the session token in the body. Save it somewhere safe on the client.
   dynamic authorizeEmailPassword(String email, String password) async {
     if(email == null) {
-      throw new sCNotify("Please define an email as the first parameter.", sCNotify.ERROR);
+      throw new sCNotify("Please define an email as the first parameter.", sCNotifyTypes.ERROR);
     }
 
     if(password == null) {
-      throw new sCNotify("Please define an unhashed password as the second parameter.", sCNotify.ERROR);
+      throw new sCNotify("Please define an unhashed password as the second parameter.", sCNotifyTypes.ERROR);
     }
 
     var client = new http.Client();
@@ -134,6 +134,32 @@ class sCAuth {
       };
 
       return await client.get(config.api_endpoint,
+        headers: headers
+      );
+
+    } catch(e) {
+      return e;
+    } finally {
+      client.close();
+    }
+  }
+
+  /// Gets the users profile from the token
+  /// @param token The session token, which you got, when the user has been authorized.
+  dynamic getUserProfile(String token) async {
+    if (token == null) {
+      throw new sCNotify("Please define a token as the first parameter.", sCNotifyTypes.ERROR);
+    }
+
+    var client = new http.Client();
+    try {
+      Map<String, String> headers = {
+        'appid': _app_id,
+        'appsecret': _app_secret,
+        'authtoken': token
+      };
+
+      return await client.get(config.api_endpoint + "?function=user_profile",
         headers: headers
       );
 
